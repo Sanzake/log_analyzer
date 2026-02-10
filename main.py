@@ -9,9 +9,15 @@ def get_logs(path):
         data = list(reader)
         return data
 
+def get_out_ips(data):
+    out_ips = [log[1] for log in data if not log[1].startswith(("10.", "192.168."))]
+    return out_ips
+
 
 def main():
-    get_logs(logs)
+    data = get_logs(logs)
+    for i in get_out_ips(data):
+        print(i)
 
 
 if __name__ == "__main__":
