@@ -34,6 +34,9 @@ def count_sendings(data):
     counted_data = {ip: ips.count(ip) for ip in set(ips)}
     return counted_data
 
+def port_protocol_dict(data):
+    ports_protocol = {log[3]: log[4]  for log in data}
+    return ports_protocol
 
 
 
@@ -41,8 +44,9 @@ def count_sendings(data):
 def main():
     data = get_logs(logs)
     ips = count_sendings(data)
+    ports_protocol =port_protocol_dict(data)
 
-    print(ips)
+    print(ports_protocol)
 
 
 if __name__ == "__main__":
