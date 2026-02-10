@@ -17,11 +17,18 @@ def get_sensitive_ports(data):
     sensitive_ports = [log for log in data if int(log[3]) in [22,33,3389]]
     return sensitive_ports
 
+def size_filter(data):
+    filtered_data = [log for log in data if int(log[5]) > 5000]
+    return filtered_data
+
 
 def main():
     data = get_logs(logs)
     out_ips = get_out_ips(data)
     sensitive_ports = get_sensitive_ports(data)
+    size_filtered = size_filter(data)
+    for i in size_filtered:
+        print(i)
 
 if __name__ == "__main__":
     main()
