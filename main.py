@@ -21,6 +21,14 @@ def size_filter(data):
     filtered_data = [log for log in data if int(log[5]) > 5000]
     return filtered_data
 
+def add_lable(data):
+    for log in data:
+        if int(log[5]) > 5000:
+            log.append("LARGE")
+        else:
+            log.append("NORMAL")
+    return data
+
 
 def main():
     data = get_logs(logs)
@@ -29,6 +37,8 @@ def main():
     size_filtered = size_filter(data)
     for i in size_filtered:
         print(i)
+    add_lable(data)
+    print(data)
 
 if __name__ == "__main__":
     main()
