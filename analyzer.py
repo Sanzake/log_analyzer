@@ -7,6 +7,7 @@ from log_analyzer import config
 def is_external(ip):
     return not ip.startswith(config.INTERNAL)
 
+
 def get_hours_from_time(date_time):
     return datetime.strptime(date_time, "%Y-%m-%d %H:%M:%S").hour
 
@@ -16,7 +17,12 @@ suspicion_checks = {
     "SENSITIVE_PORT": lambda row: row.port in config.SENSITIVE_PORTS,
     "LARGE_PACKET": lambda row: row.size > 5000,
     "NIGHT_ACTIVITY": lambda row: 0 <= datetime.strptime(row.date, "%Y-%m-%d %H:%M:%S").hour < 7
-    }
+}
+
+
+def check_suspicions(log, checks):
+    identified = filter(lambda i: i[1](log), checks.items())
+    return [name for name, func in identified]
 
 
 class Analyzer:
