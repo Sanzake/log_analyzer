@@ -83,3 +83,9 @@ class Analyzer:
 
         suspicions_filtered = {key: suspicions[key] for key in suspicions if len(suspicions[key]) > 1}
         return suspicions_filtered
+
+    def get_hours(self):
+        return list(map(lambda x: datetime.strptime(x.date, "%Y-%m-%d %H:%M:%S").hour, self.logs))
+
+    def get_kb_sizes(self):
+        return list(map(lambda x: x.size / 1024, self.logs))
