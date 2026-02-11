@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from log_analyzer import config
 from log_analyzer.analyzer import Analyzer
 from log_analyzer.reader import get_logs

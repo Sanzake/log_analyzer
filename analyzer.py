@@ -51,37 +51,35 @@ class Analyzer:
         ports_protocol = {log.port: log.protocol for log in self.logs}
         return ports_protocol
 
-    def get_nigth_activity(self):
+    def get_night_activity(self):
         night_activity = []
         for log in self.logs:
             dt = datetime.strptime(log.date, "%Y-%m-%d %H:%M:%S")
-            if 0 <= dt.hour <= 7:
+            if 0 <= dt.hour < 7:
                 night_activity.append(log)
         return night_activity
 
     def identify_suspicions(self):
-        external_ip = self.get_external()
-        sensitive_ports = self.get_sensitive_ports()
-        large_packets = self.size_filter()
-        night_activity = self.get_nigth_activity()
-
         identified = {}
 
-        for log in external_ip:
-            identified.setdefault(log.sender, set()).add("EXTERNAL_IP")
-        for log in sensitive_ports:
-            identified.setdefault(log.sender, set()).add("SENSITIVE_PORT")
-        for log in large_packets:
-            identified.setdefault(log.sender, set()).add("LARGE_PACKET")
-        for log in night_activity:
-            identified.setdefault(log.sender, set()).add("NIGHT_ACTIVITY")
+        for log in self.logs:
+            dt = datetime.strptime(log.date, "%Y-%m-%d %H:%M:%S")
+
+            if is_external(log.sender):
+                identified.setdefault(log.sender, set()).add("EXTERNAL_IP")
+            if log.port in config.SENSITIVE_PORTS:
+                identified.setdefault(log.sender, set()).add("SENSITIVE_PORT")
+            if log.size > 5000:
+                identified.setdefault(log.sender, set()).add("LARGE_PACKET")
+            if 0 <= dt.hour < 7:
+                identified.setdefault(log.sender, set()).add("NIGHT_ACTIVITY")
 
         return identified
 
     def filter_by_2_suspicions(self):
         suspicions = self.identify_suspicions()
 
-        suspicions_filtered = {key: suspicions[key] for key in suspicions if len(suspicions[key]) > 1}
+        suspicions_filtered = {ip: values for ip, values in suspicions.items() if len(values) > 1}
         return suspicions_filtered
 
     def get_hours(self):
