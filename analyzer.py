@@ -7,13 +7,16 @@ from log_analyzer import config
 def is_external(ip):
     return not ip.startswith(config.INTERNAL)
 
+def get_hours_from_time(date_time):
+    return datetime.strptime(date_time, "%Y-%m-%d %H:%M:%S").hour
+
 
 class Analyzer:
     def __init__(self, logs):
         self.logs = logs
 
     def get_external(self):
-        return [log for log in self.logs if is_external(log.sender)]
+        return [log.sender for log in self.logs if is_external(log.sender)]
 
     def get_sensitive_ports(self):
         sensitive_ports = [log for log in self.logs if log.port in config.SENSITIVE_PORTS]
@@ -77,3 +80,6 @@ class Analyzer:
 
     def get_sensitive_ports_lambda(self):
         return list(filter(lambda log: log.port in config.SENSITIVE_PORTS, self.logs))
+
+    def get_night_activity_lambda(self):
+        return list(filter(lambda log: 0 <= get_hours_from_time(log.date) < 7, self.logs))

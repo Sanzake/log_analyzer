@@ -13,7 +13,7 @@ class Log:
         self.label = label
 
     def __repr__(self):
-        return f"{self.sender}, {self.receiver}, {self.port}, {self.protocol}, {self.size}, {self.label}"
+        return f"[{self.date}, {self.sender}, {self.receiver}, {self.port}, {self.protocol}, {self.size}, {self.label}]"
 
 
 def get_logs(path):

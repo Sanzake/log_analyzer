@@ -9,7 +9,9 @@ def main():
 
 
     print(analyzer.get_sensitive_ports_lambda())
-
+    na = analyzer.get_night_activity_lambda()
+    for i in na:
+        print(i.date)
 
 if __name__ == "__main__":
     main()
