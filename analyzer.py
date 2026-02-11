@@ -34,19 +34,6 @@ class Analyzer:
     def count_sendings(self):
         return Counter(log.sender for log in self.logs)
 
-        # counted_data = {}
-        #
-        # for log in self.logs:
-        #     counted_data[log.sender] = counted_data.get(log.sender, 0) + 1
-        #
-        #
-        # counted_data = {log.sender: 0 for log in self.logs}
-        #
-        # for log in self.logs:
-        #     counted_data[log.sender] += 1
-        #
-        # return counted_data
-
     def port_protocol_dict(self):
         ports_protocol = {log.port: log.protocol for log in self.logs}
         return ports_protocol
