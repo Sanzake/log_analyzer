@@ -13,13 +13,13 @@ class Log:
         self.label = label
 
     def __repr__(self):
-        return f"{self.sender}, {self.receiver}, {self.port}, {self.protocol}, {self.size}, {self.label}"
+        return f"[{self.date}, {self.sender}, {self.receiver}, {self.port}, {self.protocol}, {self.size}, {self.label}]"
 
 
 def get_logs(path):
     path = Path(path)
     if not path.exists():
-        raise FileNotFoundError("File does not found!")
+        raise FileNotFoundError("File not found!")
 
     logs = []
     with open(path, "r", encoding="utf-8") as f:
