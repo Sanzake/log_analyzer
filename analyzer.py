@@ -77,3 +77,9 @@ class Analyzer:
             identified.setdefault(log.sender, set()).add("NIGHT_ACTIVITY")
 
         return identified
+
+    def filter_by_2_suspicions(self):
+        suspicions = self.identify_suspicions()
+
+        suspicions_filtered = {key: suspicions[key] for key in suspicions if len(suspicions[key]) > 1}
+        return suspicions_filtered

@@ -7,7 +7,7 @@ def main():
     data = get_logs(config.LOG_FILE)
     analyzer = Analyzer(data)
 
-    suspicions = analyzer.identify_suspicions()
+    suspicions = analyzer.filter_by_2_suspicions()
     for i in suspicions:
         print(i, suspicions[i])
 
