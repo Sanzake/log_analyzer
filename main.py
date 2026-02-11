@@ -8,7 +8,7 @@ def main():
     analyzer = Analyzer(data)
 
 
-    print(analyzer.get_kb_sizes())
+    print(analyzer.get_sensitive_ports_lambda())
 
 
 if __name__ == "__main__":

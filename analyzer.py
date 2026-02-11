@@ -74,3 +74,6 @@ class Analyzer:
 
     def get_kb_sizes(self):
         return list(map(lambda x: x.size / 1024, self.logs))
+
+    def get_sensitive_ports_lambda(self):
+        return list(filter(lambda log: log.port in config.SENSITIVE_PORTS, self.logs))
